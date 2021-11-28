@@ -1,6 +1,10 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 
 import config from './config';
+import routes from './routes';
+import middlewares from './middlewares';
 
 const {
   PORT
@@ -10,8 +14,15 @@ const app = express();
 
 app.get('/', (_, res) => {
   res.json({ message: 'Identity service' });
-})
+});
 
-app.listen(PORT, () => {
-  console.log('App run on port ' + PORT);
-})
+app.use(bodyParser.json());
+app.use(middlewares.pre);
+app.use(routes);
+
+mongoose.connect('mongodb://mongoadmin:secret@localhost:27888/?authSource=admin', () => {
+  app.listen(PORT, () => {
+    console.log('App run on port ' + PORT);
+  });
+});
+
