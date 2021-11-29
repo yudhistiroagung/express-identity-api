@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -19,8 +20,9 @@ app.get('/', (_, res) => {
 app.use(bodyParser.json());
 app.use(middlewares.pre);
 app.use(routes);
+app.use(middlewares.post);
 
-mongoose.connect('mongodb://mongoadmin:secret@localhost:27888/?authSource=admin', () => {
+mongoose.connect('mongodb://mongoadmin:secret@localhost:27888/db_playground?authSource=admin', () => {
   app.listen(PORT, () => {
     console.log('App run on port ' + PORT);
   });

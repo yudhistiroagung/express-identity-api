@@ -1,5 +1,6 @@
 import { Request, NextFunction, Response } from 'express';
 
+import { Locals } from '../types';
 import IdentityRepository from '../repositories/identity.repository';
 
 export default (req: Request, _: Response, next: NextFunction) => {

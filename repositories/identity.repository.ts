@@ -3,7 +3,7 @@ import { UserIdentity } from '../interfaces/identity.interfaces';
 import { IdentityModel } from '../models'
 
 export interface IdentityRepository {
-  getByEmail: (email: string) => Promise<UserIdentity|undefined>;
+  getByEmail: (email: string) => Promise<UserIdentity | undefined>;
   addUser: (email: string, password: string) => Promise<UserIdentity>;
 }
 
@@ -25,7 +25,7 @@ export default class IdentityrepositoryImpl implements IdentityRepository {
     }
   }
 
-  async getByEmail(userEmail: string): Promise<UserIdentity|undefined> {
+  async getByEmail(userEmail: string): Promise<UserIdentity | undefined> {
     const results = await IdentityModel.find({ email: userEmail }).exec();
 
     if (!results.length) {

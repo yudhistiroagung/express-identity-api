@@ -1,19 +1,21 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import asyncHandler from 'express-async-handler';
 
 import { IdentityService } from '../../services/identity.service';
+import { mapError } from '../../mapper/error.mapper';
+import Ex from '../../exceptions/EmailAlreadyExistError';
 
-const handler = async (req: Request, res: Response) => {
+const handler = asyncHandler( async (req: Request, res: Response, next: NextFunction) => {
   const { body, app } = req;
+  const service = app?.locals?.identityService as IdentityService;
 
   try {
-    const service = app?.locals?.identityService as IdentityService;
-
     const result = await service.register(body);
 
     res.json(result);
-  } catch(error) {
-    res.status(500).json({ error })
+  } catch (e: any) {
+    throw mapError(e);
   }
-}
+});
 
 export default handler;
